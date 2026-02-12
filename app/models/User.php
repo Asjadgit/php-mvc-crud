@@ -1,6 +1,5 @@
 <?php
-
-require_once './core/Database.php';
+require_once ROOT . '/core/Database.php';
 
 class User
 {
@@ -29,8 +28,9 @@ class User
     public function find($id)
     {
         $stmt = $this->db->prepare(
-            "SELECT * FROM {$this->table} WHERE id = ? AND LIMIT = 1"
+            "SELECT * FROM {$this->table} WHERE id = ? LIMIT 1"
         );
+
         $stmt->execute([$id]);
 
         return $stmt->fetch(PDO::FETCH_ASSOC);

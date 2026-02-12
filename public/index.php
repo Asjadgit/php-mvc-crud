@@ -1,4 +1,8 @@
 <?php
+define('ROOT', dirname(__DIR__)); // root direcotri
+require_once ROOT . '/core/Controller.php';
+require_once ROOT . '/core/Database.php';
+
 
 /**
  * ------------------------------------------------------------
@@ -14,25 +18,26 @@
  * UserController → edit(5)
  */
 
-// 1️⃣ Get URL from query string
+// 1️ Get URL from query string
 // If no URL is provided, default to "user/index"
-$url = $_GET['url'] ?? 'user/index';
+$url = isset($_GET['url']) ? rtrim($_GET['url'], '/') : 'user/index';
 
-// 2️⃣ Convert URL string into array
+// 2️ Convert URL string into array
 // Example: "user/edit/5"
 // Becomes: ["user", "edit", "5"]
 $url = explode('/', $url);
 
-// 3️⃣ Determine Controller Name
+// 3️ Determine Controller Name
 // Take first part of URL and convert to Controller class
 // Example: "user" → "UserController"
 $controllerName = ucfirst($url[0]) . 'Controller';
+// print_r($controllerName);
 
-// 4️⃣ Determine Method Name
+// 4️ Determine Method Name
 // If method not provided, default to "index"
 $method = $url[1] ?? 'index';
 
-// 5️⃣ Get Optional Parameter (like ID)
+// 5️ Get Optional Parameter (like ID)
 // Example: user/edit/5 → $param = 5
 $param = $url[2] ?? null;
 
@@ -40,21 +45,21 @@ if (!file_exists("../app/controllers/$controllerName.php")) {
     die("Controller not found.");
 }
 
-// 6️⃣ Load the Controller file
+// 6️ Load the Controller file
 // Example: ../app/controllers/UserController.php
 require_once "../app/controllers/$controllerName.php";
 
-// 7️⃣ Create Controller Instance
+// 7️ Create Controller Instance
 $controller = new $controllerName();
 
-// ✅ Check if method exists BEFORE calling it
+// Check if method exists BEFORE calling it
 if (!method_exists($controller, $method)) {
     http_response_code(404);
     echo "404 - Method Not Found";
     exit;
 }
 
-// 8️⃣ Call the Method Dynamically
+// 8️ Call the Method Dynamically
 // If parameter exists, pass it to the method
 
 if ($param) {

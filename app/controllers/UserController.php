@@ -1,21 +1,21 @@
 <?php
 
-require_once './core/Controller.php';
-require_once './app/models/User.php';
+require_once ROOT . '/core/Controller.php';
+require_once ROOT . '/app/models/User.php';
+
 
 class UserController extends Controller
 {
     public function index()
     {
-        $users = new User();
-        $users->all();
+        $users = (new User())->all();
 
-        $this->view('users/index', compact('users'));
+        $this->view('user/index', compact('users'));
     }
 
     public function create()
     {
-        $this->view('users/create');
+        $this->view('user/create');
     }
 
     public function store()
