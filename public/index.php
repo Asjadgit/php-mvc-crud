@@ -1,4 +1,6 @@
 <?php
+session_start();
+define('BASE_URL', '/php-crud-mvc/public');
 define('ROOT', dirname(__DIR__)); // root direcotri
 require_once ROOT . '/core/Controller.php';
 require_once ROOT . '/core/Database.php';

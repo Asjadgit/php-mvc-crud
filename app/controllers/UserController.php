@@ -26,16 +26,21 @@ class UserController extends Controller
         ];
 
         $user = new User();
-        $user->create($data);
+        if ($user->create($data)) {
+            $this->setFlash('success', 'User created successfully!');
+        } else {
+            $this->setFlash('error', 'Failed to create user.');
+        }
 
-        header("Location: /php-mvc-crud/public");
+        header("Location: " . BASE_URL . "/user");
+        exit;
     }
 
     public function edit($id)
     {
-        $user = new User();
-        $user->find($id);
-        $this->view('users/edit', compact('user'));
+        $userModel = new User();
+        $user = $userModel->find($id);
+        $this->view('user/edit', compact('user'));
     }
 
     public function update()
@@ -48,16 +53,28 @@ class UserController extends Controller
         ];
 
         $user = new User();
-        $user->update($id, $data);
 
-        header("Location: /php-mvc-crud/public");
+        if ($user->update($id, $data)) {
+            $this->setFlash('success', 'User updated successfully!');
+        } else {
+            $this->setFlash('error', 'Failed to update user.');
+        }
+
+        header("Location: " . BASE_URL . "/user");
+        exit;
     }
 
     public function destroy($id)
     {
         $user = new User();
-        $user->delete($id);
 
-        header("Location: /php-mvc-crud/public");
+        if ($user->delete($id)) {
+            $this->setFlash('success', 'User deleted successfully!');
+        } else {
+            $this->setFlash('error', 'Failed to delete user.');
+        }
+
+        header("Location: " . BASE_URL . "/user");
+        exit;
     }
 }
